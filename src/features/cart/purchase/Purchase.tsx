@@ -1,15 +1,17 @@
 import {Button, Grid} from '@material-ui/core';
 import React from 'react';
-import {ProductType} from '../../catalog/catalog-reducer';
-import {ExtendedProductType} from '../cart-reducer';
+import {BookType} from '../../catalog/catalog-reducer';
+import {ExtendedBookType} from '../cart-reducer';
 
 type PurchasePropsType = {
-    book : ProductType & ExtendedProductType
+    book : BookType & ExtendedBookType
+    incrQuantity: () => void
+    decrQuantity: () => void
 }
 
-export const Purchase = (props: PurchasePropsType) => {
+export const Purchase = React.memo( (props: PurchasePropsType) => {
     return (
-        <Grid container>
+        <Grid container >
             <Grid container justify={'center'} item xs={4} >
                 <img
                     src= {props.book.image}
@@ -23,9 +25,10 @@ export const Purchase = (props: PurchasePropsType) => {
                 <p>Price: {props.book.price} $</p>
             </Grid>
             <Grid container justify={'space-evenly'} alignItems={'center'} direction={'row'} item xs={4} >
-                <Button variant="contained" color="primary" size={'small'}>-</Button>
+                <Button variant="contained" color="primary" size={'small'} onClick={props.decrQuantity}>-</Button>
                 <div>{props.book.count}</div>
-                <Button variant="contained" color="primary" size={'small'}>+</Button>
-            </Grid></Grid>
+                <Button variant="contained" color="primary" size={'small'} onClick={props.incrQuantity}>+</Button>
+            </Grid>
+        </Grid>
     )
-}
+})

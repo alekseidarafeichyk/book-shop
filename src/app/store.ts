@@ -16,7 +16,7 @@ export const store = configureStore({
     }
 )
 
-export type AppRootStoreType = ReturnType<typeof rootReducer>
+export type RootState = ReturnType<typeof rootReducer>
 
 declare global {
     interface Window {

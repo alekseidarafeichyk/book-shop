@@ -1,23 +1,24 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Grid, Paper} from '@material-ui/core';
 import {Purchase} from './purchase/Purchase';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../app/store';
 import {BookType} from '../catalog/catalog-reducer';
 import {calculateCost, decrQuantityAC, ExtendedBookType, incrQuantityAC} from './cart-reducer';
+import { OrderForm } from '../catalog/orderForm/OrderForm';
 
 export const Cart = React.memo(() => {
     const books = useSelector<RootState, Array<BookType & ExtendedBookType>>(state => state.cart.books)
     const dispatch = useDispatch()
 
-    const incrQuantity = (productId: number) => {
+    const incrQuantity = useCallback ((productId: number) => {
         dispatch(incrQuantityAC({productId}))
         dispatch(calculateCost())
-    }
-    const decrQuantity = (productId: number) => {
+    },[dispatch])
+    const decrQuantity = useCallback ((productId: number) => {
         dispatch(decrQuantityAC({productId}))
         dispatch(calculateCost())
-    }
+    },[dispatch])
 
 
     return (
@@ -35,8 +36,10 @@ export const Cart = React.memo(() => {
                     </Grid>)
                 }
             </Grid>
-            <Grid item xs={4}>
-                <Paper>xs=6</Paper>
+            <Grid item xs={2} alignContent={'center'}>
+                <Paper elevation={3} style={{padding: '10px'}}>
+                <OrderForm/>
+                </Paper>
             </Grid>
         </Grid>
     )

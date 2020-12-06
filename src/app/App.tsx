@@ -17,8 +17,6 @@ function App() {
         const a = firebase.database().ref('book');
         a.on('value',(snapshot) => {
             const products = snapshot.val()
-            console.log(products)
-                debugger
             dispatch(setProduct(products))
         })
 

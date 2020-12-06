@@ -6,27 +6,36 @@ import {RootState} from '../../app/store';
 import {BookType} from './catalog-reducer';
 import {addToCart, calculateCost} from '../cart/cart-reducer';
 
-export const   Catalog = React.memo(() => {
+export const Catalog = React.memo(() => {
     const books = useSelector<RootState, Array<BookType>>(state => state.catalog.book)
     const dispatch = useDispatch()
 
-    const addToCartHandler = useCallback ((book: BookType) => {
+    const addToCartHandler = useCallback((book: BookType) => {
         dispatch(addToCart(book))
         dispatch(calculateCost())
-    },[dispatch])
+    }, [dispatch])
+
+    const products = books.map(book => {
+        return <Grid item style={{margin: '10px'}} key={book.id} md={3} >
+            <Paper elevation={3} style={{padding: '10px', minHeight: '500px'}}>
+                <Product
+                    book={book}
+                    addToCart={addToCartHandler}
+                />
+            </Paper>
+        </Grid>
+    })
 
     return (
-        <Container>
-            <Grid container direction="row" justify="space-between" alignItems="flex-start" spacing={3}>
-                {books.map(book => (<Grid item style={{margin: '10px'}} key={book.id}>
-                        <Paper elevation={3}>
-                            <Product
-                                book={book}
-                                addToCart={addToCartHandler}
-                            />
-                        </Paper>
-                    </Grid>)
-                )}
+        <Container >
+            <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+                spacing={3}
+            >
+                {products}
             </Grid>
         </Container>
     )

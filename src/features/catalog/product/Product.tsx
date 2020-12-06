@@ -1,6 +1,6 @@
 import React from 'react';
 import style from './Product.module.css'
-import {Button} from '@material-ui/core';
+import {Button, Grid} from '@material-ui/core';
 import {BookType} from '../catalog-reducer';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../app/store';
@@ -11,25 +11,30 @@ export type ProductPropsType = {
     addToCart: (book: BookType) => void
 }
 
-export const Product = React.memo( (props: ProductPropsType) => {
-    const productInCart = useSelector<RootState,Array<BookType & ExtendedBookType>>(state => state.cart.books)
+export const Product = React.memo((props: ProductPropsType) => {
+    const productInCart = useSelector<RootState, Array<BookType & ExtendedBookType>>(state => state.cart.books)
 
     const buttonDisabled = productInCart.some(book => book.id === props.book.id)
 
+    const addToCartHandler = () => {
+        props.addToCart(props.book)
+    }
+
     return (
-        <div className={style.productContainer}>
-            <div className={style.image}>
-                <img src={props.book.image} alt=""/>
-            </div>
-            <div className={style.description}>
+        <Grid container direction="column" justify="space-between" alignItems="center" style={{minHeight: '550px'}}>
+            <Grid item>
+                <img src={props.book.image} alt="" className={style.image}/>
+            </Grid>
+            <Grid item>
                 <p>{props.book.title}</p>
                 <p>{props.book.description}</p>
                 <p>{props.book.author}</p>
                 <p>{`${props.book.price} $`}</p>
-            </div>
-            <Button variant="contained" disabled={buttonDisabled} color="primary" onClick={() => {
-                props.addToCart(props.book)
-            }}>add cart</Button>
-        </div>
+            </Grid>
+            <Grid item>
+                <Button variant="contained" disabled={buttonDisabled} color="primary" onClick={addToCartHandler}>add
+                    cart</Button>
+            </Grid>
+        </Grid>
     )
 })

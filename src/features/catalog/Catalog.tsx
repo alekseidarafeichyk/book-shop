@@ -1,14 +1,18 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Container, Grid, Paper} from '@material-ui/core';
 import {Product} from './product/Product';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../app/store';
-import {BookType} from './catalog-reducer';
+import {BookType, fetchBooksTC} from './catalog-reducer';
 import {addToCart, calculateCost} from '../cart/cart-reducer';
 
 export const Catalog = React.memo(() => {
     const books = useSelector<RootState, Array<BookType>>(state => state.catalog.book)
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchBooksTC())
+    }, [dispatch])
 
     const addToCartHandler = useCallback((book: BookType) => {
         dispatch(addToCart(book))

@@ -1,8 +1,8 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import firebase from '../../utils/firebase';
 
 export type ProductType = {
-    book : Array<BookType>
+    book: Array<BookType>
 }
 
 export type BookType = {
@@ -11,20 +11,33 @@ export type BookType = {
     id: number,
     description: string
     price: number
-    author : string
+    author: string
     inCart: boolean
 }
 
+export const fetchBooksTC = createAsyncThunk('catalog/fetchBooks',   async () => {
+    let products : Array<any> = []
+
+     await firebase.database().ref('book')
+        .once('value',  (snapshot) => {
+              products =  snapshot.val()
+        })
+
+    return products
+})
+
 const slice = createSlice({
     name: 'catalog',
-    initialState: {book : []} as ProductType ,
+    initialState: {book: []} as ProductType,
     reducers: {
-        setProduct(state, action : PayloadAction<Array<BookType>>) {
-           state.book = action.payload
-        }
+    },
+    extraReducers: builder => {
+        builder.addCase(fetchBooksTC.fulfilled, (state, action) => {
+            state.book = action.payload
+        })
     }
 })
 
 export const catalogReducer = slice.reducer
-export const {setProduct} = slice.actions
+export const {} = slice.actions
 

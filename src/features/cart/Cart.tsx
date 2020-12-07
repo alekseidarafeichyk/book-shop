@@ -15,10 +15,12 @@ export const Cart = React.memo(() => {
         dispatch(incrQuantityAC({productId}))
         dispatch(calculateCost())
     }, [dispatch])
+
     const decrQuantity = useCallback((productId: number) => {
         dispatch(decrQuantityAC({productId}))
         dispatch(calculateCost())
     }, [dispatch])
+
 
     const products = books.map(book =>
         <Paper key={book.id} style={{marginBottom: '10px'}}>
@@ -29,7 +31,6 @@ export const Cart = React.memo(() => {
             />
         </Paper>
    )
-
 
     return (
         <Container >

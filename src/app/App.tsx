@@ -1,25 +1,14 @@
 import AppBar from '@material-ui/core/AppBar';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {Button, Toolbar} from '@material-ui/core';
 import {Catalog} from '../features/catalog/Catalog';
 import {Cart} from '../features/cart/Cart';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from './store';
-import firebase from './../utils/firebase';
-import { setProduct } from '../features/catalog/catalog-reducer';
 
 function App() {
     const dispatch = useDispatch()
-
-    useEffect(() => {
-        const a = firebase.database().ref('book');
-        a.on('value',(snapshot) => {
-            const products = snapshot.val()
-            dispatch(setProduct(products))
-        })
-
-    }, [dispatch])
 
     const [showCatalog, setShowCatalog] = useState(true)
     const totalPrice = useSelector<RootState, number>(state => state.cart.totalPrice)

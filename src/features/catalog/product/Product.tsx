@@ -1,5 +1,4 @@
 import React from 'react';
-import style from './Product.module.css'
 import {Button, Grid} from '@material-ui/core';
 import {BookType} from '../catalog-reducer';
 import {useSelector} from 'react-redux';
@@ -23,7 +22,7 @@ export const Product = React.memo((props: ProductPropsType) => {
     return (
         <Grid container direction="column" justify="space-between" alignItems="center" style={{minHeight: '550px'}}>
             <Grid item>
-                <img src={props.book.image} alt="" className={style.image}/>
+                <img src={props.book.image} alt="book"  style={{maxWidth: '100px'}}/>
             </Grid>
             <Grid item>
                 <p>{props.book.title}</p>

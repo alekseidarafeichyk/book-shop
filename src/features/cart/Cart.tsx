@@ -41,10 +41,10 @@ export const Cart = React.memo(() => {
             spacing={3}
             style={{marginTop: '20px'}}
         >
-            <Grid item xs={8}>
+            <Grid item xs={12} sm={12} md={8}>
                 {products}
             </Grid>
-            <Grid item xs={2} >
+            <Grid item xs={12} sm={12} md={4}>
                 <Paper elevation={3} style={{padding: '10px'}}>
                     <OrderForm/>
                 </Paper>

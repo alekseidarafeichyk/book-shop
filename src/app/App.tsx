@@ -10,7 +10,6 @@ import firebase from './../utils/firebase';
 import { setProduct } from '../features/catalog/catalog-reducer';
 
 function App() {
-
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -20,7 +19,7 @@ function App() {
             dispatch(setProduct(products))
         })
 
-    }, [])
+    }, [dispatch])
 
     const [showCatalog, setShowCatalog] = useState(true)
     const totalPrice = useSelector<RootState, number>(state => state.cart.totalPrice)
